@@ -38,10 +38,7 @@ def create_assignment(homework_list):
     title = input("Enter assignment name: ").strip()
     course = input("Enter course name (e.g., CS100): ").strip()
     due = input("Enter due date (e.g., 2025-12-01 or 'Monday'): ").strip()
-
-
-
-
+    
 
 #EMMA'S CODE
 income = 0.0
@@ -50,6 +47,7 @@ current_file = ""
 
 
 def load_budget_data():
+    # this is for reading the income and expenses from a user's file
     global income, expenses_list, current_file
 
     income = 0.0
@@ -66,6 +64,7 @@ def load_budget_data():
     if income_line != "":
         income = float(income_line)
 
+    # the rest are expenses: name|amount
     for line in lines[1:]:
         line = line.strip()
         if line != "":
@@ -76,8 +75,9 @@ def load_budget_data():
                 amount = float(amount_text)
                 expenses_list.append({"name": name, "amount": amount})
 
-def save_budget_data():
 
+def save_budget_data():
+    # for writing income and expenses to a user's file
     global income, expenses_list, current_file
 
     f = open(current_file, "w")
@@ -89,4 +89,111 @@ def save_budget_data():
 
     f.close()
 
+
+def show_summary():
+    # for showing income, all expenses, total and remaining
+    global income, expenses_list
+
+    print("\n=== ACCOUNT SUMMARY ===")
+    print("Income: " + str(income))
+
+    total_expenses = 0.0
+
+    if len(expenses_list) == 0:
+        print("No expenses yet.")
+    else:
+        print("\nExpenses:")
+        for expense in expenses_list:
+            print("- " + expense["name"] + ": " + str(expense["amount"]))
+            total_expenses = total_expenses + expense["amount"]
+
+    remaining = income - total_expenses
+
+    print("\nTotal Expenses: " + str(total_expenses))
+    print("Remaining Money: " + str(remaining))
+    print("")
+
+
+def add_expense():
+    # this is for asking a user for one expense and save it
+    global expenses_list
+
+    print("\n--- Add a New Expense ---")
+    name = input("Enter expense name: ")
+    amt = input("Enter expense amount: ")
+
+    amount = float(amt)
+
+    expenses_list.append({"name": name, "amount": amount})
+    save_budget_data()
+    print("Expense added.\n")
+
+
+def budget_tracker():
+    # this is for the main budget tracker function
+    global income, expenses_list, current_file
+
+    print("\n=== BUDGET TRACKER ===")
+    print("Are you:")
+    print("1. A new user")
+    print("2. A returning user")
+    user_type = input("Choose an option (1/2): ")
+
+    username = input("Enter your name (no spaces): ")
+    current_file = username + "_budget.txt"
+
+    # FOR A NEW USER
+    if user_type == "1":
+        print("\nDo you currently have:")
+        print("1. Income only")
+        print("2. Savings only")
+        print("3. Both income and savings")
+        print("4. None (start at 0)")
+        money_choice = input("Choose an option (1/2/3/4): ")
+
+        print("\n--- Budget Setup ---")
+        if money_choice == "1" or money_choice == "3":
+            inc = input("Enter your income: ")
+            income = float(inc)
+        else:
+            income = 0.0
+
+        save_budget_data()
+
+        print("\nNow let's add your expenses.")
+        while True:
+            add_expense()
+            more = input("Add another? (yes/no): ").lower()
+            if more != "yes":
+                break
+
+        show_summary()
+
+    # IF THE USER IS NOW A RETURNING USER
+    elif user_type == "2":
+        # yes that option is selected then a file should already exist for this user
+        load_budget_data()
+
+        print("\nWelcome back, " + username + "!")
+        print("a. View summary")
+        print("b. Add new expense")
+        print("c. Back to main menu")
+        option = input("Choose (a/b/c): ").lower()
+
+        if option == "a":
+            show_summary()
+        elif option == "b":
+            add_expense()
+            see = input("View summary now? (yes/no): ").lower()
+            if see == "yes":
+                show_summary()
+        elif option == "c":
+            print("Returning to main menu...\n")
+        else:
+            print("Invalid option.\n")
+
+    else:
+        print("Invalid choice.\n")
+
 #GPA CALCULATOR
+
