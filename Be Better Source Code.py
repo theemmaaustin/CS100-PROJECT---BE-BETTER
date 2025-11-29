@@ -1,15 +1,42 @@
+'''code description'''
+
+#_____________________Program Title: BE BETTER - Smart Student Planner____________________________________________
+#Team Members: David Oladapo, Emmanuella Austin-Gabriel
+#The key features in this program: Goal Tracker, Homework Tracker and Budget Tracker
+#_____________________________________________________________________________________________________
+
+
 '''start of the code'''
+userName = ""
+userMajor = ""
+userYearofGraduation = ""
 
-#START OF THE CODE, THIS HASN'T BEEN CODED YET
+def loadUserProfile():
+    global userName, userMajor, userYearofGraduation
+    profileUserFile = open("user_profile.text", "r")
+    lines = profileUserFile.readlines()
+    profileFile.close()
+
+    if len(lines) >= 3:
+        userName = lines[0].strip()
+        userMajor = lines[1].strip()
+        userYearofGraduation = lines[2].strip()
+    
+def saveUserProfile():
+    global userName, userMajor, userYearofGraduation
+    profileUserFile = open("userProfile.txt","w")
+    profileUserFile.write(userName + "\n")
+    profileUserFile.write(userMajor + "\n")
+    profileUserFile.write(userYearofGraduation + "\n")
+    profileUserFile.close()
 
 
-#ARJUN'S CODE
-#DAVID'S CODE
+#This code is for the homework Tracker
 import random   # module: used for motivational messages
 
 # List of homework dictionaries.
 # Each homework looks like:
-
+# {"title": "Lab 3", "course": "CS100", "due": "Monday", "completed": False}
 homework_list = []
 
 
@@ -45,7 +72,7 @@ def create_assignment():
         "title": title,
         "course": course,
         "due": due,
-        "completed": False  
+        "completed": False   # Boolean
     }
 
     homework_list.append(assignment)
@@ -124,8 +151,7 @@ def main():
 if __name__ == "__main__":
     main()
 
-
-#Emma's Code
+#This code is for the budget calculator
 income = 0.0
 expenses_list = []
 current_file = ""
@@ -280,7 +306,17 @@ def budget_tracker():
     else:
         print("Invalid choice.\n")
 
-#GPA CALCULATOR
+def mainMenu():
+    #this prints the main menu and the user's choice
+    print("\nWhat features are you feeling today?")
+    print("1. Homework Tracker")
+    print("2. Budget Tracker")
+    print("3. Exit")
+
+    userChoice = input("Please enter your choice (1-3): ")
+    return choice
+    
+def main():
 
 
 
