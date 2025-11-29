@@ -5,13 +5,15 @@
 
 #ARJUN'S CODE
 #DAVID'S CODE
-import random
-# Each homework will be stored as a dictionary like:
-# {"title": "Lab 3", "course": "CS100", "due": "2025-12-01", "completed": False}
+import random   # module: used for motivational messages
+
+# List of homework dictionaries.
+# Each homework looks like:
+# {"title": "Lab 3", "course": "CS100", "due": "Monday", "completed": False}
+homework_list = []
 
 
-def homework_tracker(homework_list):
-
+def homework_tracker():
     print("\n--- Homework Tracker ---")
     print("a. Create Assignment")
     print("b. Task Completed!")
@@ -20,27 +22,107 @@ def homework_tracker(homework_list):
     choice = input("Choose an option (a/b/c): ").strip().lower()
 
     if choice == "a":
-        create_assignment(homework_list)
+        create_assignment()
     elif choice == "b":
-        mark_assignment_completed(homework_list)
+        mark_assignment_completed()
     elif choice == "c":
-        see_all_assignments(homework_list)
+        see_all_assignments()
     else:
         print("Invalid choice.")
 
 
-def create_assignment(homework_list):
-    """
-    This will ask the user for assignment info and store it in a dictionary.
-    Uses: strings, dictionaries, lists.
-    """
+def create_assignment():
     print("\n-- Create Assignment --")
     title = input("Enter assignment name: ").strip()
     course = input("Enter course name (e.g., CS100): ").strip()
     due = input("Enter due date (e.g., 2025-12-01 or 'Monday'): ").strip()
-    
 
-#EMMA'S CODE
+    if title == "" or course == "" or due == "":
+        print("Assignment name, course, and due date cannot be empty.")
+        return
+
+    assignment = {
+        "title": title,
+        "course": course,
+        "due": due,
+        "completed": False   # Boolean
+    }
+
+    homework_list.append(assignment)
+    print("Assignment created!")
+
+
+def mark_assignment_completed():
+    if len(homework_list) == 0:
+        print("You don't have any assignments yet.")
+        return
+
+    print("\n-- Mark Assignment Completed --")
+    index = 0
+    while index < len(homework_list):
+        hw = homework_list[index]
+        status_text = "Done" if hw["completed"] else "Pending"
+        print(str(index + 1) + ". " + hw["title"] +
+              " | Course: " + hw["course"] +
+              " | Due: " + hw["due"] +
+              " | Status: " + status_text)
+        index = index + 1
+
+    choice = input("Which assignment is completed? (number): ").strip()
+    if not choice.isdigit():
+        print("Invalid input.")
+        return
+
+    selection = int(choice) - 1
+    if selection < 0 or selection >= len(homework_list):
+        print("Invalid choice.")
+        return
+
+    homework_list[selection]["completed"] = True
+
+    messages = [
+        "You did it! Task conquered!",
+        "Great job, keep going!",
+        "Another assignment off the list!",
+        "Nice work, you're staying on top of it!"
+    ]
+    mot = random.choice(messages)
+    print("Yay! Assignment completed!")
+    print(mot)
+
+
+def see_all_assignments():
+    if len(homework_list) == 0:
+        print("No homework yet. Add an assignment to get started.")
+        return
+
+    print("\n-- All Assignments --")
+    for hw in homework_list:
+        status_text = "Done" if hw["completed"] else "Pending"
+        line = "- " + hw["title"]
+        line = line + " | Course: " + hw["course"]
+        line = line + " | Due: " + hw["due"]
+        line = line + " | Status: " + status_text
+        print(line)
+
+    count = len(homework_list)
+    binary_count = bin(count)   # binary representation
+    print("\nYou currently have " + str(count) + " assignment(s).")
+    print("In binary, that is: " + binary_count)
+
+
+# Simple loop so you can test Homework Tracker by itself
+def main():
+    while True:
+        homework_tracker()
+        again = input("\nStay in Homework Tracker? (y/n): ").strip().lower()
+        if again != "y":
+            print("Exiting Homework Tracker demo.")
+            break
+
+
+if __name__ == "__main__":
+    main()
 income = 0.0
 expenses_list = []
 current_file = ""
@@ -196,4 +278,5 @@ def budget_tracker():
         print("Invalid choice.\n")
 
 #GPA CALCULATOR
+
 
