@@ -317,6 +317,22 @@ def mainMenu():
     return choice
     
 def main():
+    while True:
+        userChoice = mainMenu()
+
+        if userChoice == "1":
+            homework_tracker()
+        elif userChoice == "2":
+            budget_tracker()
+        elif userChoice == "3":
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid option. Please try again.")
+
+if __name__ == "__main__":
+    main()
+
 
 
 
