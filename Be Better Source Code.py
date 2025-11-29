@@ -9,7 +9,7 @@ import random   # module: used for motivational messages
 
 # List of homework dictionaries.
 # Each homework looks like:
-# {"title": "Lab 3", "course": "CS100", "due": "Monday", "completed": False}
+
 homework_list = []
 
 
@@ -45,7 +45,7 @@ def create_assignment():
         "title": title,
         "course": course,
         "due": due,
-        "completed": False   # Boolean
+        "completed": False  
     }
 
     homework_list.append(assignment)
@@ -123,6 +123,9 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+#Emma's Code
 income = 0.0
 expenses_list = []
 current_file = ""
@@ -278,5 +281,6 @@ def budget_tracker():
         print("Invalid choice.\n")
 
 #GPA CALCULATOR
+
 
 
