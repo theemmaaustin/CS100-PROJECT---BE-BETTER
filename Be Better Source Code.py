@@ -1,43 +1,84 @@
-'''code description'''
+# ==========================================
+# BE BETTER - Smart Student Planner
+# Team Members: David Oladapo, Emmanuella Austin-Gabriel
+# Features: Goal Tracker (not included here), Homework Tracker, Budget Tracker
+# ==========================================
 
-#_____________________Program Title: BE BETTER - Smart Student Planner____________________________________________
-#Team Members: David Oladapo, Emmanuella Austin-Gabriel
-#The key features in this program: Goal Tracker, Homework Tracker and Budget Tracker
-#_____________________________________________________________________________________________________
+import random   # used for motivational messages
+import os       # used to check for files
 
-
-'''start of the code'''
+# ---------- Global user/profile variables ----------
 userName = ""
 userMajor = ""
 userYearofGraduation = ""
 
+PROFILE_FILENAME = "user_profile.txt"   # consistent filename
+
+
+# ---------- User profile functions ----------
 def loadUserProfile():
+    """Try to load the saved user profile. Return True if loaded, False if not found."""
     global userName, userMajor, userYearofGraduation
-    profileUserFile = open("user_profile.text", "r")
-    lines = profileUserFile.readlines()
-    profileFile.close()
+    try:
+        f = open(PROFILE_FILENAME, "r")
+    except FileNotFoundError:
+        return False
+
+    lines = f.readlines()
+    f.close()
 
     if len(lines) >= 3:
         userName = lines[0].strip()
         userMajor = lines[1].strip()
         userYearofGraduation = lines[2].strip()
-    
+        return True
+
+    return False
+
+
 def saveUserProfile():
+    """Save the current user profile to file."""
     global userName, userMajor, userYearofGraduation
-    profileUserFile = open("userProfile.txt","w")
-    profileUserFile.write(userName + "\n")
-    profileUserFile.write(userMajor + "\n")
-    profileUserFile.write(userYearofGraduation + "\n")
-    profileUserFile.close()
+    f = open(PROFILE_FILENAME, "w")
+    f.write(userName + "\n")
+    f.write(userMajor + "\n")
+    f.write(userYearofGraduation + "\n")
+    f.close()
 
 
-#This code is for the homework Tracker
-import random   # module: used for motivational messages
+def setupNewUser():
+    """Ask the user to enter profile information and save it."""
+    global userName, userMajor, userYearofGraduation
+    print("\nWelcome new User, Let's set up your account.")
+    userName = input("Enter your name: ").strip()
+    userMajor = input("Enter your major: ").strip()
+    userYearofGraduation = input("Enter your year of graduation: ").strip()
+    saveUserProfile()
+    print("\nProfile saved. Welcome, " + userName + "!\n")
 
-# List of homework dictionaries.
-# Each homework looks like:
-# {"title": "Lab 3", "course": "CS100", "due": "Monday", "completed": False}
-homework_list = []
+
+# ---------- START MENU (as requested) ----------
+def start_menu():
+    """Start menu: welcome the user, try to reload session or set up a new profile."""
+    print("========================================")
+    print("     Welcome to Be Better!")
+    print("  A Smart Planner for Student Success")
+    print("========================================\n")
+
+    loaded = loadUserProfile()
+    if loaded:
+        print("Reloading your last session for " + userName + "...\n")
+        # If you want, you can print loaded profile info here
+        print("Name: " + userName)
+        print("Major: " + userMajor)
+        print("Graduation Year: " + userYearofGraduation + "\n")
+    else:
+        print("Welcome new User, Let's set up your account.\n")
+        setupNewUser()
+
+
+# ---------- HOMEWORK TRACKER ----------
+homework_list = []  # each item: {"title","course","due","completed"}
 
 
 def homework_tracker():
@@ -72,7 +113,7 @@ def create_assignment():
         "title": title,
         "course": course,
         "due": due,
-        "completed": False   # Boolean
+        "completed": False
     }
 
     homework_list.append(assignment)
@@ -127,42 +168,31 @@ def see_all_assignments():
     for hw in homework_list:
         status_text = "Done" if hw["completed"] else "Pending"
         line = "- " + hw["title"]
-        line = line + " | Course: " + hw["course"]
-        line = line + " | Due: " + hw["due"]
-        line = line + " | Status: " + status_text
+        line += " | Course: " + hw["course"]
+        line += " | Due: " + hw["due"]
+        line += " | Status: " + status_text
         print(line)
 
     count = len(homework_list)
-    binary_count = bin(count)   # binary representation
+    binary_count = bin(count)
     print("\nYou currently have " + str(count) + " assignment(s).")
     print("In binary, that is: " + binary_count)
 
 
-# Simple loop so you can test Homework Tracker by itself
-def main():
-    while True:
-        homework_tracker()
-        again = input("\nStay in Homework Tracker? (y/n): ").strip().lower()
-        if again != "y":
-            print("Exiting Homework Tracker demo.")
-            break
-
-
-if __name__ == "__main__":
-    main()
-
-#This code is for the budget calculator
+# ---------- BUDGET TRACKER ----------
 income = 0.0
 expenses_list = []
 current_file = ""
 
 
 def load_budget_data():
-    # this is for reading the income and expenses from a user's file
     global income, expenses_list, current_file
-
     income = 0.0
     expenses_list = []
+
+    # if file doesn't exist, just return
+    if not os.path.exists(current_file):
+        return
 
     f = open(current_file, "r")
     lines = f.readlines()
@@ -173,43 +203,40 @@ def load_budget_data():
 
     income_line = lines[0].strip()
     if income_line != "":
-        income = float(income_line)
+        try:
+            income = float(income_line)
+        except ValueError:
+            income = 0.0
 
-    # the rest are expenses: name|amount
     for line in lines[1:]:
         line = line.strip()
         if line != "":
             parts = line.split("|")
             if len(parts) == 2:
                 name = parts[0]
-                amount_text = parts[1]
-                amount = float(amount_text)
+                try:
+                    amount = float(parts[1])
+                except ValueError:
+                    amount = 0.0
                 expenses_list.append({"name": name, "amount": amount})
 
 
 def save_budget_data():
-    # for writing income and expenses to a user's file
     global income, expenses_list, current_file
-
     f = open(current_file, "w")
     f.write(str(income) + "\n")
-
     for expense in expenses_list:
         line = expense["name"] + "|" + str(expense["amount"]) + "\n"
         f.write(line)
-
     f.close()
 
 
 def show_summary():
-    # for showing income, all expenses, total and remaining
     global income, expenses_list
-
     print("\n=== ACCOUNT SUMMARY ===")
     print("Income: " + str(income))
 
     total_expenses = 0.0
-
     if len(expenses_list) == 0:
         print("No expenses yet.")
     else:
@@ -219,21 +246,21 @@ def show_summary():
             total_expenses = total_expenses + expense["amount"]
 
     remaining = income - total_expenses
-
     print("\nTotal Expenses: " + str(total_expenses))
     print("Remaining Money: " + str(remaining))
     print("")
 
 
 def add_expense():
-    # this is for asking a user for one expense and save it
     global expenses_list
-
     print("\n--- Add a New Expense ---")
-    name = input("Enter expense name: ")
-    amt = input("Enter expense amount: ")
-
-    amount = float(amt)
+    name = input("Enter expense name: ").strip()
+    amt = input("Enter expense amount: ").strip()
+    try:
+        amount = float(amt)
+    except ValueError:
+        print("Invalid amount. Expense not added.")
+        return
 
     expenses_list.append({"name": name, "amount": amount})
     save_budget_data()
@@ -241,31 +268,31 @@ def add_expense():
 
 
 def budget_tracker():
-    # this is for the main budget tracker function
     global income, expenses_list, current_file
-
     print("\n=== BUDGET TRACKER ===")
     print("Are you:")
     print("1. A new user")
     print("2. A returning user")
-    user_type = input("Choose an option (1/2): ")
+    user_type = input("Choose an option (1/2): ").strip()
 
-    username = input("Enter your name (no spaces): ")
+    username = input("Enter your name (no spaces): ").strip()
     current_file = username + "_budget.txt"
 
-    # FOR A NEW USER
     if user_type == "1":
         print("\nDo you currently have:")
         print("1. Income only")
         print("2. Savings only")
         print("3. Both income and savings")
         print("4. None (start at 0)")
-        money_choice = input("Choose an option (1/2/3/4): ")
+        money_choice = input("Choose an option (1/2/3/4): ").strip()
 
         print("\n--- Budget Setup ---")
         if money_choice == "1" or money_choice == "3":
-            inc = input("Enter your income: ")
-            income = float(inc)
+            inc = input("Enter your income: ").strip()
+            try:
+                income = float(inc)
+            except ValueError:
+                income = 0.0
         else:
             income = 0.0
 
@@ -280,11 +307,8 @@ def budget_tracker():
 
         show_summary()
 
-    # IF THE USER IS NOW A RETURNING USER
     elif user_type == "2":
-        # yes that option is selected then a file should already exist for this user
         load_budget_data()
-
         print("\nWelcome back, " + username + "!")
         print("a. View summary")
         print("b. Add new expense")
@@ -302,21 +326,26 @@ def budget_tracker():
             print("Returning to main menu...\n")
         else:
             print("Invalid option.\n")
-
     else:
         print("Invalid choice.\n")
 
+
+# ---------- MAIN MENU ----------
 def mainMenu():
-    #this prints the main menu and the user's choice
     print("\nWhat features are you feeling today?")
     print("1. Homework Tracker")
     print("2. Budget Tracker")
     print("3. Exit")
 
-    userChoice = input("Please enter your choice (1-3): ")
-    return choice
-    
+    userChoice = input("Please enter your choice (1-3): ").strip()
+    return userChoice
+
+
 def main():
+    # show the start menu first
+    start_menu()
+
+    # now loop the main menu
     while True:
         userChoice = mainMenu()
 
@@ -330,9 +359,6 @@ def main():
         else:
             print("Invalid option. Please try again.")
 
+
 if __name__ == "__main__":
     main()
-
-
-
-
