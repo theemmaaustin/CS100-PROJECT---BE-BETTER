@@ -1,11 +1,10 @@
-# ==========================================
-# BE BETTER - Smart Student Planner
+# ________________________________________________________________________________
+# BE BETTER - This is a Smart Student Planner
 # Team Members: David Oladapo, Emmanuella Austin-Gabriel
-# Features: Goal Tracker (not included here), Homework Tracker, Budget Tracker
-# ==========================================
+# Features: Goal Tracker, Homework Tracker, Budget Tracker
+# ___________________________________________________________________________________
 
-import random   # used for motivational messages
-import os       # used to check for files
+import random   # this is used for randomizing motivational messages for the homework feature
 
 # ---------- Global user/profile variables ----------
 userName = ""
@@ -178,156 +177,196 @@ def see_all_assignments():
     print("\nYou currently have " + str(count) + " assignment(s).")
     print("In binary, that is: " + binary_count)
 
-
-# ---------- BUDGET TRACKER ----------
 income = 0.0
-expenses_list = []
-current_file = ""
+expensesList = []
+currentFile = ""
 
 
-def load_budget_data():
-    global income, expenses_list, current_file
+def loadBudgetData():
+    # this first line is written to load the income and expense that were saved for this user
+    global income, expensesList, currentFile
+
     income = 0.0
-    expenses_list = []
+    expensesList = []
 
-    # if file doesn't exist, just return
-    if not os.path.exists(current_file):
-        return
-
-    f = open(current_file, "r")
+    f = open(currentFile, "r")
     lines = f.readlines()
     f.close()
 
     if len(lines) == 0:
         return
 
-    income_line = lines[0].strip()
-    if income_line != "":
-        try:
-            income = float(income_line)
-        except ValueError:
-            income = 0.0
+    incomeLine = lines[0].strip()
+    if incomeLine != "":
+        income = float(incomeLine)
 
+    # every line after the income is an expense which is written as name|amount
     for line in lines[1:]:
         line = line.strip()
         if line != "":
             parts = line.split("|")
             if len(parts) == 2:
                 name = parts[0]
-                try:
-                    amount = float(parts[1])
-                except ValueError:
-                    amount = 0.0
-                expenses_list.append({"name": name, "amount": amount})
+                amountText = parts[1]
+                amount = float(amountText)
+                expensesList.append({"name": name, "amount": amount})
 
 
-def save_budget_data():
-    global income, expenses_list, current_file
-    f = open(current_file, "w")
+'''def saveBudgetData():
+    # this saves the user's income and expenses into their file
+    global income, expensesList, currentFile
+
+    f = open(currentFile, "w")
     f.write(str(income) + "\n")
-    for expense in expenses_list:
+
+    for expense in expensesList:
         line = expense["name"] + "|" + str(expense["amount"]) + "\n"
-        f.write(line)
+        f.write(line)'''
+
     f.close()
 
 
-def show_summary():
-    global income, expenses_list
+def showSummary():
+    # this shows the income, the list of all the expenses, the total spent and the remaining money/what is left
+    global income, expensesList
+
     print("\n=== ACCOUNT SUMMARY ===")
     print("Income: " + str(income))
 
-    total_expenses = 0.0
-    if len(expenses_list) == 0:
+    totalExpenses = 0.0
+
+    if len(expensesList) == 0:
         print("No expenses yet.")
     else:
         print("\nExpenses:")
-        for expense in expenses_list:
+        for expense in expensesList:
             print("- " + expense["name"] + ": " + str(expense["amount"]))
-            total_expenses = total_expenses + expense["amount"]
+            totalExpenses = totalExpenses + expense["amount"]
 
-    remaining = income - total_expenses
-    print("\nTotal Expenses: " + str(total_expenses))
+    remaining = income - totalExpenses
+
+    print("\nTotal Expenses: " + str(totalExpenses))
     print("Remaining Money: " + str(remaining))
     print("")
 
 
-def add_expense():
-    global expenses_list
+def addExpense():
+    # this is for asking a user for one expense and then saving it
+    global expensesList
+
     print("\n--- Add a New Expense ---")
-    name = input("Enter expense name: ").strip()
-    amt = input("Enter expense amount: ").strip()
-    try:
-        amount = float(amt)
-    except ValueError:
-        print("Invalid amount. Expense not added.")
-        return
+    name = input("Enter expense name: ")
+    userAmount = input("Enter expense amount: ")
 
-    expenses_list.append({"name": name, "amount": amount})
-    save_budget_data()
-    print("Expense added.\n")
+    amount = float(userAmount)
+
+    expensesList.append({"name": name, "amount": amount})
+    saveBudgetData()
+    print("Success, Expense added.\n")
 
 
-def budget_tracker():
-    global income, expenses_list, current_file
+def budgetTracker():
+    # this is the main part for the budget tracker function
+    global income, expensesList, currentFile
+
     print("\n=== BUDGET TRACKER ===")
     print("Are you:")
     print("1. A new user")
     print("2. A returning user")
-    user_type = input("Choose an option (1/2): ").strip()
+    userType = input("Choose an option (1/2): ")
 
-    username = input("Enter your name (no spaces): ").strip()
-    current_file = username + "_budget.txt"
+    username = input("Enter your name (with no spaces please): ")
+    currentFile = username + "_budget.txt"
 
-    if user_type == "1":
+    # When it is a new user the following will happen
+    if userType == "1":
         print("\nDo you currently have:")
         print("1. Income only")
         print("2. Savings only")
         print("3. Both income and savings")
         print("4. None (start at 0)")
-        money_choice = input("Choose an option (1/2/3/4): ").strip()
+        moneyChoice = input("Choose an option (1/2/3/4): ")
 
         print("\n--- Budget Setup ---")
-        if money_choice == "1" or money_choice == "3":
-            inc = input("Enter your income: ").strip()
-            try:
-                income = float(inc)
-            except ValueError:
-                income = 0.0
+        if moneyChoice == "1" or moneyChoice == "3":
+            newUserinc = input("Enter your income: ")
+            income = float(newUserinc)
         else:
             income = 0.0
 
-        save_budget_data()
+        saveBudgetData()
 
         print("\nNow let's add your expenses.")
         while True:
-            add_expense()
-            more = input("Add another? (yes/no): ").lower()
-            if more != "yes":
+            addExpense()
+            moreAddition = input(" Do you want to add another expense? (yes/no): ").lower()
+            if moreAddition != "yes":
                 break
 
-        show_summary()
+        showSummary()
 
-    elif user_type == "2":
-        load_budget_data()
+    # If the user is a reoccurring user then the following will run
+    elif userType == "2":
+        # if the option '2' is selected then a file should already exist for that particular user
+        loadBudgetData()
+
         print("\nWelcome back, " + username + "!")
         print("a. View summary")
-        print("b. Add new expense")
+        print("b. Add a new expense")
         print("c. Back to main menu")
         option = input("Choose (a/b/c): ").lower()
 
         if option == "a":
-            show_summary()
+            showSummary()
         elif option == "b":
-            add_expense()
-            see = input("View summary now? (yes/no): ").lower()
+            addExpense()
+            see = input("Do you want to view summary now? (yes/no): ").lower()
             if see == "yes":
-                show_summary()
+                showSummary()
         elif option == "c":
             print("Returning to main menu...\n")
         else:
-            print("Invalid option.\n")
+            print("Sorry. This is an Invalid option.\n")
+
     else:
-        print("Invalid choice.\n")
+        print("Sorry. This is an Invalid choice.\n")
+
+
+def showMainMenu():
+    # this prints the main menu and gets the user's choice
+    print("\nWhat features are you feeling today?")
+    print("1. Goal Tracker")
+    print("2. Homework Tracker")
+    print("3. Budget Tracker")
+    print("4. GPA Calculator")
+    print("5. Exit")
+
+    choice = input("Enter your choice (1-5): ")
+    return choice
+
+
+def main():
+    # this is the main function that runs the whole Be Better planner
+    global userName, userMajor, userYearOfGraduation, Goals_List
+
+    print("Welcome to Be Better!")
+
+    print("Have you used Be Better on this computer before?")
+    answer = input("Enter yes or no: ").lower()
+
+    if answer == "yes":
+        print("Reloading your last session...")
+        loadUserProfile()
+        # Goals_List is already a list, homework_list and expensesList
+        # are handled in their own sections
+    else:
+        print("Welcome new user, let's set up your account.")
+        userName = input("Enter your name: ")
+        userMajor = input("Enter your major: ")
+        userYearOfGraduation = input("Enter your year of graduation: ")
+
+        Goals_List = []   # empty goals list for now
+        saveUserProfile()
 
 
 # ---------- MAIN MENU ----------
@@ -362,3 +401,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
