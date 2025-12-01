@@ -53,7 +53,7 @@ def start_menu():
     print("_________________________________")
     print("  Welcome to Be Better! ")
     print("  A Smart Planner for Students  ")
-    print("_______________________________________\n")
+    print("_________________________________\n")
 
     profileLoaded = loadUserProfile()
     if profileLloaded:
@@ -67,10 +67,10 @@ def start_menu():
 
 
 # Second feature of our code; Homework Tracker
-homework_list = []  # each item: {"title","course","due","completed"}
+homeworkList = []  # each item: {"title","course","due","completed"}
 
 
-def homework_tracker():
+def homeworkTracker():
     print("\n--- Homework Tracker ---")
     print("a. Create Assignment")
     print("b. Task Completed!")
@@ -79,16 +79,16 @@ def homework_tracker():
     choice = input("Choose an option (a/b/c): ").strip().lower()
 
     if choice == "a":
-        create_assignment()
+        createAssignment()
     elif choice == "b":
-        mark_assignment_completed()
+        markAssignmentCompleted()
     elif choice == "c":
-        see_all_assignments()
+        seeAllAssignments()
     else:
         print("Invalid choice.")
 
 
-def create_assignment():
+def createAssignment():
     print("\n-- Create Assignment --")
     title = input("Enter assignment name: ").strip()
     course = input("Enter course name (e.g., CS100): ").strip()
@@ -105,19 +105,19 @@ def create_assignment():
         "completed": False
     }
 
-    homework_list.append(assignment)
+    homeworkList.append(assignment)
     print("Assignment created!")
 
 
-def mark_assignment_completed():
-    if len(homework_list) == 0:
+def markAssignmentCompleted():
+    if len(homeworkList) == 0:
         print("You don't have any assignments yet.")
         return
 
     print("\n-- Mark Assignment Completed --")
     index = 0
-    while index < len(homework_list):
-        hw = homework_list[index]
+    while index < len(homeworkList):
+        hw = homeworkList[index]
         if hw["completed"]:
             status_text = "Done"
         else: status_text = "pending"
@@ -128,16 +128,22 @@ def mark_assignment_completed():
         index = index + 1
 
     choice = input("Which assignment is completed? (number): ").strip()
-    if not choice.isdigit():
-        print("Invalid input.")
-        return
+    valid = True
+    i = 0 
+    while i < len(choice):
+        if choice[i] in "0123456789":
+            valid = True
+        if choice[i] not in "0123456789":
+            valid = False
+        i = i + 1
 
-    selection = int(choice) - 1
-    if selection < 0 or selection >= len(homework_list):
+    if valid == True:
+        selection = int(choice) - 1
+        if selection < 0 or if selection >= len(homework_list):
         print("Invalid choice.")
         return
 
-    homework_list[selection]["completed"] = True
+    homeworkList[selection]["completed"] = True
 
     messages = [
         "You did it! Task conquered!",
@@ -151,12 +157,12 @@ def mark_assignment_completed():
 
 
 def see_all_assignments():
-    if len(homework_list) == 0:
+    if len(homeworkList) == 0:
         print("No homework yet. Add an assignment to get started.")
         return
 
     print("\n-- All Assignments --")
-    for hw in homework_list:
+    for hw in homeworkList:
         if hw["completed"]:
             status_text = "Done"
         else:
@@ -167,7 +173,7 @@ def see_all_assignments():
         line += " | Status: " + status_text
         print(line)
 
-    count = len(homework_list)
+    count = len(homeworkList)
     binary_count = bin(count)
     print("\nYou currently have " + str(count) + " assignment(s).")
     print("In binary, that is: " + binary_count)
@@ -392,6 +398,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
