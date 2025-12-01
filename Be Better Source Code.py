@@ -27,9 +27,8 @@ def loadUserProfile():
         userYearofGraduation = lines[2].strip()
 
 def saveUserProfile():
-    '''This is for us to save the current user profile to file'''
     global userName, userMajor, userYearofGraduation
-    f = open(PROFILE_FILENAME, "w")
+    f = open(profile, "w")
     f.write(userName + "\n")
     f.write(userMajor + "\n")
     f.write(userYearofGraduation + "\n")
@@ -56,7 +55,7 @@ def start_menu():
     print("_________________________________\n")
 
     profileLoaded = loadUserProfile()
-    if profileLloaded:
+    if profileLoaded:
         print("Reloading your last session for " + userName + "..." + "\n")
         print("Name: " + userName)
         print("Major: " + userMajor)
@@ -131,15 +130,16 @@ def markAssignmentCompleted():
     valid = True
     i = 0 
     while i < len(choice):
-        if choice[i] in "0123456789":
-            valid = True
         if choice[i] not in "0123456789":
             valid = False
         i = i + 1
 
-    if valid == True:
+    if valid == False:
+        print("Invalid input")
+        return
+        
         selection = int(choice) - 1
-        if selection < 0 or if selection >= len(homework_list):
+        if selection < 0 or selection >= len(homeworkList):
         print("Invalid choice.")
         return
 
@@ -156,7 +156,7 @@ def markAssignmentCompleted():
     print(mot)
 
 
-def see_all_assignments():
+def seeAllAssignments():
     if len(homeworkList) == 0:
         print("No homework yet. Add an assignment to get started.")
         return
@@ -176,8 +176,6 @@ def see_all_assignments():
     count = len(homeworkList)
     binary_count = bin(count)
     print("\nYou currently have " + str(count) + " assignment(s).")
-    print("In binary, that is: " + binary_count)
-
 
 #last feature; Budget Tracker
 income = 0.0
@@ -341,15 +339,14 @@ def showMainMenu():
     print("1. Goal Tracker")
     print("2. Homework Tracker")
     print("3. Budget Tracker")
-    print("4. GPA Calculator")
-    print("5. Exit")
+    print("4. Exit")
 
     choice = input("Enter your choice (1-5): ")
     return choice
     
 def main():
     # this is the main function that runs the whole Be Better planner
-    global userName, userMajor, userYearOfGraduation, Goals_List
+    global userName, userMajor, userYearOfGraduation, GoalsList
 
     print("Welcome to Be Better!")
     print("Have you used Be Better on this computer before?")
@@ -362,7 +359,7 @@ def main():
         print("Welcome new user, let's set up your account.")
         userName = input("Enter your name: ")
         userMajor = input("Enter your major: ")
-        userYearOfGraduation = input("Enter your year of graduation: ")
+        userYearofGraduation = input("Enter your year of graduation: ")
         saveUserProfile()
 
 
@@ -379,16 +376,16 @@ def mainMenu():
 
 def main():
     #this is so that the start menu would be displayed first
-    start_menu()
+    startMenu()
 
 #this is the loop created to go through the main menu when the user makes their choice
     while True:
         userChoice = mainMenu()
 
         if userChoice == "1":
-            homework_tracker()
+            homeworkTracker()
         elif userChoice == "2":
-            budget_tracker()
+            budgetTracker()
         elif userChoice == "3":
             print("Goodbye!")
             break
@@ -398,6 +395,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
