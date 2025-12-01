@@ -10,8 +10,7 @@ userName = ""
 userMajor = ""
 userYearofGraduation = ""
 
-profileFilename = "userProfile.txt"
-
+profileFilename = "userProfile.txt" #the file name where we save all the profiles.
 
 # This is our user profile functions
 def loadUserProfile():
@@ -67,6 +66,115 @@ def startMenu():
         print("Hey new user we are so excited you're here, let's set up your account.\n")
         setupNewUser()
 
+# Goal Tracker (this is the first feature in our program)
+# each of the goals are stored in a list: [goal name (string), progress (number)]
+goals = []
+
+def addGoal(): #this is the function
+    print("--Add New Goal--")
+    goalName = input("Enter the name of your goal: ").strip()
+
+    if goalName == "": 
+        #conditional that checks if the string is empty.
+        print("You haven't typed a goal name.") 
+    else:
+        goals.append([goalName, 0])
+        print('Goal' + goalName + 'added! Starting Progress: 0%')
+
+    print()
+
+def updateGoal(): 
+    print("--Update Goal Progress--")
+
+    if len(goals) == 0:
+        print("No goals have been added yet.")
+        print()
+        return
+
+    print("Your goals:")
+
+    number = 0
+    while number < len(goals):
+        print(str(number + 1) + ". " + goals[number][0] + " (" + str(goals[number][1]) + "%)")
+        number = number + 1
+    print()
+
+    # Input handling and int() conversion is used.
+    goalNumText = input("Enter the numner of the goal to update: ")
+    goalNum = int(goalNumText)
+    goalIndex = goalNum - 1 
+
+    if goalIndex < 0 or goalIndex >= len(goals):
+        print ("That goal number is not valid.")
+        print()
+        return
+
+    newProgressText = input("Enter the new progress (0-100): ")
+    newProgress = int(newProgressText)
+
+    if newProgress < 0 or newProgress > 100:
+        print("Progress must be from 0 to 100.")
+        print()
+    else:
+        goals[goalIndex][1] = newProgress
+        print("Progress updated for '" + goals[goalIndex][0] + "' -> " + str(newProgress) + "%")
+        print()
+
+        if newProgress == 100:
+            print("You completed your goal! Amazing work!")
+            print()
+
+def viewGoals():
+    # LOOP and LIST to show all goals.
+    print("-- [All Goals] --")
+
+    if len(goals) == 0:
+        print("No goals set yet.")
+        print()
+        return
+
+    number = 0
+    while number < len(goals):
+        name = goals[number][0]
+        progress = goals[number][1]
+
+        if progress == 100:
+            status = "COMPLETED"
+        else:
+            status = "In Progress"
+
+
+        print("[" + str(number + 1) + "] " + name + " - " + str(progress) + "% - " + status)
+        number = number + 1
+
+    print()
+
+def goalMenu():
+    # This menu is another example of a LOOP with CONDITIONALS.
+    print("Minimal Goal Tracker")
+    choice = ""
+
+    while choice != "4":
+        print("Menu:")
+        print("1. Add Goal")
+        print("2. Update Progress")
+        print("3. View All Goals")
+        print("4. Back to Main Menu")
+        choice = input("Choose (1-4): ").strip()
+        print()
+
+        if choice == "1":
+            addGoal()
+        elif choice == "2":
+            updateGoal()
+        elif choice == "3":
+            viewGoals()
+        elif choice == "4":
+            print("..Returning to Main Menu..")
+            print()
+        else:
+            print("Invalid choice.")
+            print()
 
 # Second feature of our code; Homework Tracker
 homeworkList = []  # each item: {"title","course","due","completed"}
@@ -421,6 +529,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
