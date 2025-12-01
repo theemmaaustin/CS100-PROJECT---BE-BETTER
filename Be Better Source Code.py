@@ -16,10 +16,10 @@ profileFilename = "userProfile.txt"
 
 #This is our user profile functions
 def loadUserProfile():
-    global userName, userMajor, userYearofGraduation
-    profileUserFile = open("userProfile.txt", "r")
-    lines = profileUserFile.readlines()
-    profileUserFile.close()
+    global userName, userMajor, userYearofGraduation, profileUserFile 
+    f = open(profileFilename, "r")
+    lines = f.readlines()
+    f.close()
 
     if len(lines) >= 3:
         userName = lines[0].strip()
@@ -28,7 +28,7 @@ def loadUserProfile():
 
 def saveUserProfile():
     global userName, userMajor, userYearofGraduation
-    f = open(profile, "w")
+    f = open(profileFilename, "w")
     f.write(userName + "\n")
     f.write(userMajor + "\n")
     f.write(userYearofGraduation + "\n")
@@ -141,8 +141,8 @@ def markAssignmentCompleted():
         print("Invalid input")
         return
         
-        selection = int(choice) - 1
-        if selection < 0 or selection >= len(homeworkList):
+    selection = int(choice) - 1
+    if selection < 0 or selection >= len(homeworkList):
         print("Invalid choice.")
         return
 
@@ -368,9 +368,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
 
 
 
