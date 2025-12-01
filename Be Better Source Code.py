@@ -37,7 +37,7 @@ def saveUserProfile():
 
 
 def setupNewUser():
-    '''Ask the user to enter profile information and save it'''
+    '''This is used to ask the user to enter profile information and save it'''
     global userName, userMajor, userYearofGraduation
     print("\nWelcome new User, Let's set up your account.")
     userName = input("Enter your name: ").strip()
@@ -49,25 +49,24 @@ def setupNewUser():
 
 # This is the start menu for our overall code
 def start_menu():
-    '''Start menu: welcome the user, try to reload session or set up a new profile'''
+    '''Start menu: welcome the user, then try to reload session for a returning user or set up if it is a new profile'''
     print("_________________________________")
     print("  Welcome to Be Better! ")
     print("  A Smart Planner for Students  ")
     print("_______________________________________\n")
 
-    loaded = loadUserProfile()
-    if loaded:
-        print("Reloading your last session for " + userName + "...\n")
-        # If you want, you can print loaded profile info here
+    profileLoaded = loadUserProfile()
+    if profileLloaded:
+        print("Reloading your last session for " + userName + "..." + "\n")
         print("Name: " + userName)
         print("Major: " + userMajor)
         print("Graduation Year: " + userYearofGraduation + "\n")
     else:
-        print("Welcome new User, Let's set up your account.\n")
+        print("Hey new user we are so excited you're here, let's set up your account.\n")
         setupNewUser()
 
 
-# ---------- HOMEWORK TRACKER ----------
+# Second feature of our code; Homework Tracker
 homework_list = []  # each item: {"title","course","due","completed"}
 
 
@@ -119,7 +118,9 @@ def mark_assignment_completed():
     index = 0
     while index < len(homework_list):
         hw = homework_list[index]
-        status_text = "Done" if hw["completed"] else "Pending"
+        if hw["completed"]:
+            status_text = "Done"
+        else: status_text = "pending"
         print(str(index + 1) + ". " + hw["title"] +
               " | Course: " + hw["course"] +
               " | Due: " + hw["due"] +
@@ -156,7 +157,10 @@ def see_all_assignments():
 
     print("\n-- All Assignments --")
     for hw in homework_list:
-        status_text = "Done" if hw["completed"] else "Pending"
+        if hw["completed"]:
+            status_text = "Done"
+        else:
+            status_text = "pending"
         line = "- " + hw["title"]
         line += " | Course: " + hw["course"]
         line += " | Due: " + hw["due"]
@@ -168,6 +172,8 @@ def see_all_assignments():
     print("\nYou currently have " + str(count) + " assignment(s).")
     print("In binary, that is: " + binary_count)
 
+
+#last feature; Budget Tracker
 income = 0.0
 expensesList = []
 currentFile = ""
@@ -191,7 +197,7 @@ def loadBudgetData():
     if incomeLine != "":
         income = float(incomeLine)
 
-    # every line after the income is an expense which is written as name|amount
+    #the file is used to store expenses using this format in our code: name|amount (example: Games|33)
     for line in lines[1:]:
         line = line.strip()
         if line != "":
@@ -392,5 +398,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
