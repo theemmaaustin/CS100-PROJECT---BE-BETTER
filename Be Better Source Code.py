@@ -4,19 +4,19 @@
 # Features: Goal Tracker, Homework Tracker, Budget Tracker
 # ___________________________________________________________________________________
 
-import random   # this is used for randomizing motivational messages for our homework feature
+import random  # this is used for randomizing motivational messages for our homework feature
 
-#Global user/profile variables 
+# Global user/profile variables
 userName = ""
 userMajor = ""
 userYearofGraduation = ""
 
-profileFilename = "userProfile.txt"  
+profileFilename = "userProfile.txt"
 
 
-#This is our user profile functions
+# This is our user profile functions
 def loadUserProfile():
-    global userName, userMajor, userYearofGraduation, profileUserFile 
+    global userName, userMajor, userYearofGraduation, profileUserFile
     f = open(profileFilename, "r")
     lines = f.readlines()
     f.close()
@@ -25,6 +25,7 @@ def loadUserProfile():
         userName = lines[0].strip()
         userMajor = lines[1].strip()
         userYearofGraduation = lines[2].strip()
+
 
 def saveUserProfile():
     global userName, userMajor, userYearofGraduation
@@ -36,7 +37,7 @@ def saveUserProfile():
 
 
 def setupNewUser():
-    #This is used to ask the user to enter profile information and then save it
+    # This is used to ask the user to enter profile information and then save it
     global userName, userMajor, userYearofGraduation
     print("\nWelcome new User, Let's set up your account.")
     userName = input("Enter your name: ").strip()
@@ -48,14 +49,14 @@ def setupNewUser():
 
 # This is the start menu for our overall code
 def startMenu():
-    #Start menu: welcome the user, then try to reload session for a returning user or set up if it is a new profile
+    # Start menu: welcome the user, then try to reload session for a returning user or set up if it is a new profile
     print("_________________________________")
     print("  Welcome to Be Better! ")
     print("  A Smart Planner for Students  ")
     print("_________________________________\n")
 
     print("Have you used Be Better on this computer before?")
-    userAnswer = input("Enter yes or no: "). lower()
+    userAnswer = input("Enter yes or no: ").lower()
 
     if userAnswer == "yes":
         loadUserProfile()
@@ -122,7 +123,8 @@ def markAssignmentCompleted():
         hw = homeworkList[index]
         if hw["completed"]:
             statusText = "Done"
-        else: statusText = "pending"
+        else:
+            statusText = "pending"
         print(str(index + 1) + ". " + hw["title"] +
               " | Course: " + hw["course"] +
               " | Due: " + hw["due"] +
@@ -131,7 +133,7 @@ def markAssignmentCompleted():
 
     choice = input("Which assignment is completed? (number): ").strip()
     valid = True
-    i = 0 
+    i = 0
     while i < len(choice):
         if choice[i] not in "0123456789":
             valid = False
@@ -140,7 +142,7 @@ def markAssignmentCompleted():
     if valid == False:
         print("Invalid input")
         return
-        
+
     selection = int(choice) - 1
     if selection < 0 or selection >= len(homeworkList):
         print("Invalid choice.")
@@ -179,7 +181,8 @@ def seeAllAssignments():
     count = len(homeworkList)
     print("\nYou currently have " + str(count) + " assignment(s).")
 
-#last feature; Budget Tracker
+
+# last feature; Budget Tracker
 income = 0.0
 expensesList = []
 currentFile = ""
@@ -203,7 +206,7 @@ def loadBudgetData():
     if incomeLine != "":
         income = float(incomeLine)
 
-    #the file is used to store expenses using this format in our code: name|amount (example: Games|33)
+    # the file is used to store expenses using this format in our code: name|amount (example: Games|33)
     for line in lines[1:]:
         line = line.strip()
         if line != "":
@@ -334,9 +337,10 @@ def budgetTracker():
     else:
         print("Sorry. This is an Invalid choice.\n")
 
-#goal tracker 
+
+# goal tracker
 def forGradePoints(letterGrades):
-    userGrade = letetrGrades.upper()
+    userGrade = letterGrades.upper()
 
     if userGrade == "A":
         return 4.0
@@ -351,7 +355,8 @@ def forGradePoints(letterGrades):
     else:
         return 0.0
 
-#code
+
+# code
 def gpaCalculator():
     print("\n-_-_- GPA Calculator -_-_-")
     numText = input("How many courses would you want to input?  ")
@@ -368,7 +373,8 @@ def gpaCalculator():
 
         if userGrade not in ["A", "B", "C", "D", "F"]:
             print("Unknown grade. This will be counted as 0.0 points which is an F")
-        gradePoints = getGradePoints(userGrade)
+            userGrade = "F"
+        gradePoints = forGradePoints(userGrade)
 
         totalCredits = totalCredits + credits
         totalPoints = totalPoints + (gradePoints * credits)
@@ -379,8 +385,9 @@ def gpaCalculator():
     else:
         gpa = totalPoints / totalCredits
         print("\nYour GPA is: " + str(gpa))
-        
-#this is used to get the user;s choice and display the menu for the program
+
+
+# this is used to get the user;s choice and display the menu for the program
 def mainMenu():
     print("\nWhat features are you feeling today?")
     print("1. Homework Tracker")
@@ -393,10 +400,10 @@ def mainMenu():
 
 
 def main():
-    #this is so that the start menu would be displayed first
+    # this is so that the start menu would be displayed first
     startMenu()
 
-#this is the loop created to go through the main menu when the user makes their choice
+    # this is the loop created to go through the main menu when the user makes their choice
     while True:
         userChoice = mainMenu()
 
@@ -415,6 +422,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
