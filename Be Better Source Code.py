@@ -1,19 +1,19 @@
 # BE BETTER - This is a Smart Student Planner
 # Team Members: David Oladapo, Emmanuella Austin-Gabriel
-# Features: Goal Tracker, Homework Tracker, Budget Tracker, GPA Calculator 
+# Features: Goal Tracker, Homework Tracker, Budget Tracker
 
 import random  # this is used for randomizing motivational messages for our homework feature
 
-# Global user/profile variables
+# Global user/profile variables, this is where we keep the user's details for our program
 userName = ""
 userMajor = ""
 userYearofGraduation = ""
 
 profileFilename = "userProfile.txt" #the file name where we save all the profiles.
 
-# This is our user profile functions
+# This is for our user profile functions
 def loadUserProfile():
-    global userName, userMajor, userYearofGraduation, profileUserFile
+    global userName, userMajor, userYearofGraduation
     f = open(profileFilename, "r")
     lines = f.readlines()
     f.close()
@@ -34,7 +34,7 @@ def saveUserProfile():
 
 
 def setupNewUser():
-    # This is used to ask the user to enter profile information and then save it
+    # This is used to ask the user to enter their profile information and then save it
     global userName, userMajor, userYearofGraduation
     print("\nWelcome new User, Let's set up your account.")
     userName = input("Enter your name: ").strip()
@@ -44,9 +44,9 @@ def setupNewUser():
     print("\nProfile saved. Welcome, " + userName + "!\n")
 
 
-# This is the start menu for our overall code
+#This is the start menu for our overall code
 def startMenu():
-    # Start menu: welcome the user, then try to reload session for a returning user or set up if it is a new profile
+    #Start menu: welcome the user and then try to reload session for a returning user or set up if it is a new profile
     print("_________________________________")
     print("  Welcome to Be Better! ")
     print("  A Smart Planner for Students  ")
@@ -65,8 +65,8 @@ def startMenu():
         print("Hey new user we are so excited you're here, let's set up your account.\n")
         setupNewUser()
 
-# Goal Tracker (this is the first feature in our program)
-# each of the goals are stored in a list: [goal name (string), progress (number)]
+#Goal Tracker (this is the first main feature in our program)
+#each of the goals are stored in a list: [goal name (string), progress (number)]
 goals = []
 
 def addGoal(): #this is the function
@@ -74,7 +74,7 @@ def addGoal(): #this is the function
     goalName = input("Enter the name of your goal: ").strip()
 
     if goalName == "": 
-        #conditional that checks if the string is empty.
+        #we used this as a conditional that checks if the string is already empty.
         print("You haven't typed a goal name.") 
     else:
         goals.append([goalName, 0])
@@ -98,9 +98,10 @@ def updateGoal():
         number = number + 1
     print()
 
-    # Input handling and int() conversion is used.
+    #This would the user which goal they want to update and then convert the next to an actual number
     goalNumText = input("Enter the number of the goal to update: ")
     goalNum = int(goalNumText)
+    #we subtracted one since lists start at zero, so this is used to find the correct position
     goalIndex = goalNum - 1 
 
     if goalIndex < 0 or goalIndex >= len(goals):
@@ -111,6 +112,7 @@ def updateGoal():
     newProgressText = input("Enter the new progress (0-100): ")
     newProgress = int(newProgressText)
 
+#this line of code is used to check that the progress is in the allowed range and then update the progress
     if newProgress < 0 or newProgress > 100:
         print("Progress must be from 0 to 100.")
         print()
@@ -124,7 +126,7 @@ def updateGoal():
             print()
 
 def viewGoals():
-    # LOOP and LIST to show all goals.
+    #We loop through the list and print the goal the user has added
     print(" -_-_- [All Goals] -_-_-")
 
     if len(goals) == 0:
@@ -149,7 +151,7 @@ def viewGoals():
     print()
 
 def goalMenu():
-    # This menu is another example of a LOOP with CONDITIONALS.
+    #This menu uses a loop and if statements to keep asking the user what they want to do
     print("\n-_-_- Minimal Goal Tracker -_-_-")
     choice = ""
 
@@ -175,7 +177,7 @@ def goalMenu():
             print("Invalid choice.")
             print()
 
-# Second feature of our code; Homework Tracker
+# Second main feature of our code; Homework Tracker
 homeworkList = []  # each item: {"title","course","due","completed"}
 
 
@@ -203,27 +205,30 @@ def createAssignment():
     course = input("Enter course name (e.g., CS100): ").strip()
     due = input("Enter due date (e.g., 2025-12-01 or 'Monday'): ").strip()
 
+#this is used to make sure the user didn't leave anything empty when inputing their assignment details
     if title == "" or course == "" or due == "":
         print("Assignment name, course, and due date cannot be empty.")
         return
-
+#used for storing the assignment information inside a dictionary
     assignment = {
         "title": title,
         "course": course,
         "due": due,
         "completed": False
     }
-
+#we then add the dictionary to the homework list that was created above
     homeworkList.append(assignment)
-    print("Assignment created")
+    print("Yay, your Assignment is created!!!")
 
 
 def markAssignmentCompleted():
+#first we check if the user has added anything yet
     if len(homeworkList) == 0:
         print("You don't have any assignments yet.")
         return
 
     print("\n -_-_- Mark Assignment Completed -_-_-")
+#used to show every single assignment but with their numbers so that the user can choose one
     index = 0
     while index < len(homeworkList):
         hw = homeworkList[index]
@@ -231,13 +236,17 @@ def markAssignmentCompleted():
             statusText = "Done"
         else:
             statusText = "pending"
+            
+#we then display the assignment in a nice and neat format
         print(str(index + 1) + ". " + hw["title"] +
               " | Course: " + hw["course"] +
               " | Due: " + hw["due"] +
               " | Status: " + statusText)
         index = index + 1
 
+
     choice = input("Which assignment is completed? (number): ").strip()
+#this is used to check if the user typed ONLY Digits (so the int() won't break)
     valid = True
     i = 0
     while i < len(choice):
@@ -248,14 +257,14 @@ def markAssignmentCompleted():
     if valid == False:
         print("Invalid input")
         return
-
+#then we convert the number and match it to the list index
     selection = int(choice) - 1
     if selection < 0 or selection >= len(homeworkList):
         print("Invalid choice.")
         return
-
+#updated the assignment to show that is has been done
     homeworkList[selection]["completed"] = True
-
+#we included a random motivational message just for users' fun :)
     messages = [
         "You did it! Task conquered!",
         "Great job, keep going!",
@@ -273,11 +282,13 @@ def seeAllAssignments():
         return
 
     print("\n -_-_- All Assignments -_-_-")
+#we loop through the list and show every assignment one by one and then pick the right word depending on completion status
     for hw in homeworkList:
         if hw["completed"]:
             statusText = "Done"
         else:
             statusText = "pending"
+#we then build one line of text to show the assignment details and then how many the user has in total
         line = "- " + hw["title"]
         line += " | Course: " + hw["course"]
         line += " | Due: " + hw["due"]
@@ -288,7 +299,7 @@ def seeAllAssignments():
     print("\nYou currently have " + str(count) + " assignment(s).")
 
 
-# last feature; Budget Tracker
+# last main feature; Budget Tracker
 income = 0.0
 expensesList = []
 currentFile = ""
@@ -444,7 +455,7 @@ def budgetTracker():
         print("Sorry. This is an Invalid choice.\n")
 
 
-# goal tracker
+#additional feature: goal tracker
 def forGradePoints(letterGrades):
     userGrade = letterGrades.upper()
 
@@ -462,30 +473,33 @@ def forGradePoints(letterGrades):
         return 0.0
 
 
-# code
 def gpaCalculator():
     print("\n-_-_- GPA Calculator -_-_-")
     numText = input("How many courses would you want to input?  ")
     numCourses = int(numText)
+#we use these to keep track of the total credits and grade points
     totalCredits = 0.0
     totalPoints = 0.0
     index = 0
     while index < numCourses:
         print("\nCourse " + str(index + 1))
+#we get the information for each course anf then ask for a letter grade
         courseName = input("Enter your course name: ")
         creditsText = input("Enter your number of credits for this course (e.g 3): ")
         credits = float(creditsText)
         userGrade = input("Enter your letter grade (A, B, C, D, F): ").strip().upper()
-
+#to elimate redundancy, we made sure that is the user types in something random we treat it as an F
         if userGrade not in ["A", "B", "C", "D", "F"]:
             print("Unknown grade. This will be counted as 0.0 points which is an F")
             userGrade = "F"
+#so we convert the letter grade to number so for instance (A=4.0, B=3.0)
         gradePoints = forGradePoints(userGrade)
-
+#we then add to totals so that we can compute the GPA later on
         totalCredits = totalCredits + credits
         totalPoints = totalPoints + (gradePoints * credits)
 
         index = index + 1
+#if the user entered no credits then a GPA will not be calculted
     if totalCredits == 0:
         print("\nYou entered 0 total credits, GPA cannot be calculated.")
     else:
@@ -493,7 +507,7 @@ def gpaCalculator():
         print("\nYour GPA is: " + str(gpa))
 
 
-# this is used to get the user;s choice and display the menu for the program
+#this is used to get the user;s choice and display the menu for the program
 def mainMenu():
     print("\nWhat features are you feeling today?")
     print("1. Goal Tracker")
@@ -507,10 +521,10 @@ def mainMenu():
 
 
 def main():
-    # this is so that the start menu would be displayed first
+    #this is so that the start menu would be displayed first
     startMenu()
 
-    # this is the loop created to go through the main menu when the user makes their choice
+    #this is the loop created to go through the main menu when the user makes their choice
     while True:
         userChoice = mainMenu()
 
@@ -531,5 +545,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
