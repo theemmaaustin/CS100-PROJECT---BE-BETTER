@@ -79,7 +79,7 @@ def addGoal(): #this is the function
         print("You haven't typed a goal name.") 
     else:
         goals.append([goalName, 0])
-        print('Goal' + goalName + 'added! Starting Progress: 0%')
+        print("Goal'" + goalName + "'added! Starting Progress: 0%")
 
     print()
 
@@ -497,12 +497,13 @@ def gpaCalculator():
 # this is used to get the user;s choice and display the menu for the program
 def mainMenu():
     print("\nWhat features are you feeling today?")
-    print("1. Homework Tracker")
-    print("2. Budget Tracker")
-    print("3. Gpa Calculator")
-    print("4. Exit")
+    print("1. Goal Tracker")
+    print("2. Homework Tracker")
+    print("3. Budget Tracker")
+    print("4. Gpa Calculator")
+    print("5. Exit")
 
-    userChoice = input("Please enter your choice (1-4): ").strip()
+    userChoice = input("Please enter your choice (1-5): ").strip()
     return userChoice
 
 
@@ -515,12 +516,14 @@ def main():
         userChoice = mainMenu()
 
         if userChoice == "1":
-            homeworkTracker()
+            goalMenu()
         elif userChoice == "2":
-            budgetTracker()
+            homeworkTracker()
         elif userChoice == "3":
-            gpaCalculator()
+            budgetTracker()
         elif userChoice == "4":
+            gpaCalculator()
+        elif userChoice == "5":
             print("Goodbye, we hope you use Be Better another time")
             break
         else:
@@ -529,6 +532,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
