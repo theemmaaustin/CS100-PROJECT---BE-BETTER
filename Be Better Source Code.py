@@ -6,37 +6,28 @@
 
 import random   # this is used for randomizing motivational messages for the homework feature
 
-# ---------- Global user/profile variables ----------
+#Global user/profile variables 
 userName = ""
 userMajor = ""
 userYearofGraduation = ""
 
-PROFILE_FILENAME = "user_profile.txt"   # consistent filename
+profileFilename = "userProfile.txt"  
 
 
-# ---------- User profile functions ----------
+#This is our user profile functions
 def loadUserProfile():
-    """Try to load the saved user profile. Return True if loaded, False if not found."""
     global userName, userMajor, userYearofGraduation
-    try:
-        f = open(PROFILE_FILENAME, "r")
-    except FileNotFoundError:
-        return False
-
-    lines = f.readlines()
-    f.close()
+    profileUserFile = open("userProfile.txt", "r")
+    lines = profileUserFile.readlines()
+    profileUserFile.close()
 
     if len(lines) >= 3:
         userName = lines[0].strip()
         userMajor = lines[1].strip()
         userYearofGraduation = lines[2].strip()
-        return True
-
-    return False
-
 
 def saveUserProfile():
-    """Save the current user profile to file."""
+    '''This is for us to save the current user profile to file'''
     global userName, userMajor, userYearofGraduation
     f = open(PROFILE_FILENAME, "w")
     f.write(userName + "\n")
@@ -46,7 +37,7 @@ def saveUserProfile():
 
 
 def setupNewUser():
-    """Ask the user to enter profile information and save it."""
+    '''Ask the user to enter profile information and save it'''
     global userName, userMajor, userYearofGraduation
     print("\nWelcome new User, Let's set up your account.")
     userName = input("Enter your name: ").strip()
@@ -56,13 +47,13 @@ def setupNewUser():
     print("\nProfile saved. Welcome, " + userName + "!\n")
 
 
-# ---------- START MENU (as requested) ----------
+# This is the start menu for our overall code
 def start_menu():
-    """Start menu: welcome the user, try to reload session or set up a new profile."""
-    print("========================================")
-    print("     Welcome to Be Better!")
-    print("  A Smart Planner for Student Success")
-    print("========================================\n")
+    '''Start menu: welcome the user, try to reload session or set up a new profile'''
+    print("_________________________________")
+    print("  Welcome to Be Better! ")
+    print("  A Smart Planner for Students  ")
+    print("_______________________________________\n")
 
     loaded = loadUserProfile()
     if loaded:
@@ -401,4 +392,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
