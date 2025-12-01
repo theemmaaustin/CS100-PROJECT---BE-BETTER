@@ -209,7 +209,7 @@ def loadBudgetData():
                 expensesList.append({"name": name, "amount": amount})
 
 
-'''def saveBudgetData():
+def saveBudgetData():
     # this saves the user's income and expenses into their file
     global income, expensesList, currentFile
 
@@ -218,7 +218,7 @@ def loadBudgetData():
 
     for expense in expensesList:
         line = expense["name"] + "|" + str(expense["amount"]) + "\n"
-        f.write(line)'''
+        f.write(line)
 
     f.close()
 
@@ -227,7 +227,7 @@ def showSummary():
     # this shows the income, the list of all the expenses, the total spent and the remaining money/what is left
     global income, expensesList
 
-    print("\n=== ACCOUNT SUMMARY ===")
+    print("\n_-_-_- ACCOUNT SUMMARY _-_-_-")
     print("Income: " + str(income))
 
     totalExpenses = 0.0
@@ -251,7 +251,7 @@ def addExpense():
     # this is for asking a user for one expense and then saving it
     global expensesList
 
-    print("\n--- Add a New Expense ---")
+    print("\n-_-_- Add a New Expense -_-_-")
     name = input("Enter expense name: ")
     userAmount = input("Enter expense amount: ")
 
@@ -266,7 +266,7 @@ def budgetTracker():
     # this is the main part for the budget tracker function
     global income, expensesList, currentFile
 
-    print("\n=== BUDGET TRACKER ===")
+    print("\n-_-_- BUDGET TRACKER -_-_-")
     print("Are you:")
     print("1. A new user")
     print("2. A returning user")
@@ -284,7 +284,7 @@ def budgetTracker():
         print("4. None (start at 0)")
         moneyChoice = input("Choose an option (1/2/3/4): ")
 
-        print("\n--- Budget Setup ---")
+        print("\n-_-_- Budget Setup -_-_-")
         if moneyChoice == "1" or moneyChoice == "3":
             newUserinc = input("Enter your income: ")
             income = float(newUserinc)
@@ -327,10 +327,10 @@ def budgetTracker():
 
     else:
         print("Sorry. This is an Invalid choice.\n")
+        
 
-
+#this is used to print the main menu and then get the user's choice
 def showMainMenu():
-    # this prints the main menu and gets the user's choice
     print("\nWhat features are you feeling today?")
     print("1. Goal Tracker")
     print("2. Homework Tracker")
@@ -340,33 +340,27 @@ def showMainMenu():
 
     choice = input("Enter your choice (1-5): ")
     return choice
-
-
+    
 def main():
     # this is the main function that runs the whole Be Better planner
     global userName, userMajor, userYearOfGraduation, Goals_List
 
     print("Welcome to Be Better!")
-
     print("Have you used Be Better on this computer before?")
     answer = input("Enter yes or no: ").lower()
 
     if answer == "yes":
         print("Reloading your last session...")
         loadUserProfile()
-        # Goals_List is already a list, homework_list and expensesList
-        # are handled in their own sections
     else:
         print("Welcome new user, let's set up your account.")
         userName = input("Enter your name: ")
         userMajor = input("Enter your major: ")
         userYearOfGraduation = input("Enter your year of graduation: ")
-
-        Goals_List = []   # empty goals list for now
         saveUserProfile()
 
 
-# ---------- MAIN MENU ----------
+#this is out program main menu
 def mainMenu():
     print("\nWhat features are you feeling today?")
     print("1. Homework Tracker")
@@ -378,10 +372,10 @@ def mainMenu():
 
 
 def main():
-    # show the start menu first
+    #this is so that the start menu would be displayed first
     start_menu()
 
-    # now loop the main menu
+#this is the loop created to go through the main menu when the user makes their choice
     while True:
         userChoice = mainMenu()
 
@@ -398,6 +392,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
