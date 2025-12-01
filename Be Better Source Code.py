@@ -71,7 +71,7 @@ def startMenu():
 goals = []
 
 def addGoal(): #this is the function
-    print("--Add New Goal--")
+    print("-_-_- Add New Goal -_-_-")
     goalName = input("Enter the name of your goal: ").strip()
 
     if goalName == "": 
@@ -84,7 +84,7 @@ def addGoal(): #this is the function
     print()
 
 def updateGoal(): 
-    print("--Update Goal Progress--")
+    print("-_-_- Update Goal Progress -_-_-")
 
     if len(goals) == 0:
         print("No goals have been added yet.")
@@ -126,7 +126,7 @@ def updateGoal():
 
 def viewGoals():
     # LOOP and LIST to show all goals.
-    print("-- [All Goals] --")
+    print(" -_-_- [All Goals] -_-_-")
 
     if len(goals) == 0:
         print("No goals set yet.")
@@ -181,7 +181,7 @@ homeworkList = []  # each item: {"title","course","due","completed"}
 
 
 def homeworkTracker():
-    print("\n--- Homework Tracker ---")
+    print("\n-_-_- Homework Tracker -_-_-")
     print("a. Create Assignment")
     print("b. Task Completed!")
     print("c. See all Assignments")
@@ -199,7 +199,7 @@ def homeworkTracker():
 
 
 def createAssignment():
-    print("\n-- Create Assignment --")
+    print("\n -_-_- Create Assignment -_-_-")
     title = input("Enter assignment name: ").strip()
     course = input("Enter course name (e.g., CS100): ").strip()
     due = input("Enter due date (e.g., 2025-12-01 or 'Monday'): ").strip()
@@ -224,7 +224,7 @@ def markAssignmentCompleted():
         print("You don't have any assignments yet.")
         return
 
-    print("\n-- Mark Assignment Completed --")
+    print("\n -_-_- Mark Assignment Completed -_-_-")
     index = 0
     while index < len(homeworkList):
         hw = homeworkList[index]
@@ -273,7 +273,7 @@ def seeAllAssignments():
         print("No homework yet. Add an assignment to get started.")
         return
 
-    print("\n-- All Assignments --")
+    print("\n -_-_- All Assignments -_-_-")
     for hw in homeworkList:
         if hw["completed"]:
             statusText = "Done"
@@ -532,16 +532,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-
-
-
-
-
-
