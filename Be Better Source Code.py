@@ -1,5 +1,4 @@
-# ________________________________________________________________________________
-# BE BETTER - This is a Smart Student Planner
+# ________________________________________________________________________________# BE BETTER - This is a Smart Student Planner
 # Team Members: David Oladapo, Emmanuella Austin-Gabriel
 # Features: Goal Tracker, Homework Tracker, Budget Tracker
 # ___________________________________________________________________________________
@@ -422,6 +421,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
