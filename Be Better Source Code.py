@@ -4,7 +4,7 @@
 # Features: Goal Tracker, Homework Tracker, Budget Tracker
 # ___________________________________________________________________________________
 
-import random   # this is used for randomizing motivational messages for the homework feature
+import random   # this is used for randomizing motivational messages for our homework feature
 
 #Global user/profile variables 
 userName = ""
@@ -334,14 +334,61 @@ def budgetTracker():
     else:
         print("Sorry. This is an Invalid choice.\n")
 
+#goal tracker 
+def forGradePoints(letterGrades):
+    userGrade = letetrGrades.upper()
+
+    if userGrade == "A":
+        return 4.0
+    elif userGrade == "B":
+        return 3.0
+    elif userGrade == "C":
+        return 2.0
+    elif userGrade == "D":
+        return 1.0
+    elif userGrade == "F":
+        return 0.0
+    else:
+        return 0.0
+
+#code
+def gpaCalculator():
+    print("\n-_-_- GPA Calculator -_-_-")
+    numText = input("How many courses would you want to input?  ")
+    numCourses = int(numText)
+    totalCredits = 0.0
+    totalPoints = 0.0
+    index = 0
+    while index < numCourses:
+        print("\nCourse " + str(index + 1))
+        courseName = input("Enter your course name: ")
+        creditsText = input("Enter your number of credits for this course (e.g 3): ")
+        credits = float(creditsText)
+        userGrade = input("Enter your letter grade (A, B, C, D, F): ").strip().upper()
+
+        if userGrade not in ["A", "B", "C", "D", "F"]:
+            print("Unknown grade. This will be counted as 0.0 points which is an F")
+        gradePoints = getGradePoints(userGrade)
+
+        totalCredits = totalCredits + credits
+        totalPoints = totalPoints + (gradePoints * credits)
+
+        index = index + 1
+    if totalCredits == 0:
+        print("\nYou entered 0 total credits, GPA cannot be calculated.")
+    else:
+        gpa = totalPoints / totalCredits
+        print("\nYour GPA is: " + str(gpa))
+        
 #this is used to get the user;s choice and display the menu for the program
 def mainMenu():
     print("\nWhat features are you feeling today?")
     print("1. Homework Tracker")
     print("2. Budget Tracker")
-    print("3. Exit")
+    print("3. Gpa Calculator")
+    print("4. Exit")
 
-    userChoice = input("Please enter your choice (1-3): ").strip()
+    userChoice = input("Please enter your choice (1-4): ").strip()
     return userChoice
 
 
@@ -358,6 +405,8 @@ def main():
         elif userChoice == "2":
             budgetTracker()
         elif userChoice == "3":
+            gpaCalculator()
+        elif userChoice == "4":
             print("Goodbye, we hope you use Be Better another time")
             break
         else:
@@ -366,6 +415,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
 
 
 
