@@ -79,7 +79,7 @@ def addGoal(): #this is the function
         print("You haven't typed a goal name.") 
     else:
         goals.append([goalName, 0])
-        print("Goal'" + goalName + "'added! Starting Progress: 0%")
+        print(" Your goal'" + goalName + "'has been added! Starting Progress: 0%")
 
     print()
 
@@ -100,7 +100,7 @@ def updateGoal():
     print()
 
     # Input handling and int() conversion is used.
-    goalNumText = input("Enter the numner of the goal to update: ")
+    goalNumText = input("Enter the number of the goal to update: ")
     goalNum = int(goalNumText)
     goalIndex = goalNum - 1 
 
@@ -532,6 +532,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
