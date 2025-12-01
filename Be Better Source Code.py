@@ -79,7 +79,7 @@ def addGoal(): #this is the function
         print("You haven't typed a goal name.") 
     else:
         goals.append([goalName, 0])
-        print(" Your goal'" + goalName + "'has been added! Starting Progress: 0%")
+        print(" Your goal '" + goalName + "' has been added! Starting Progress: 0%")
 
     print()
 
@@ -151,7 +151,7 @@ def viewGoals():
 
 def goalMenu():
     # This menu is another example of a LOOP with CONDITIONALS.
-    print("Minimal Goal Tracker")
+    print("\n-_-_- Minimal Goal Tracker -_-_-")
     choice = ""
 
     while choice != "4":
@@ -532,6 +532,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
