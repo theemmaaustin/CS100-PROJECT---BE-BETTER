@@ -177,9 +177,7 @@ def seeAllAssignments():
         print(line)
 
     count = len(homeworkList)
-    binaryCount = bin(count)
     print("\nYou currently have " + str(count) + " assignment(s).")
-    print("In binary, that is : " + binaryCount)
 
 #last feature; Budget Tracker
 income = 0.0
@@ -368,6 +366,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
