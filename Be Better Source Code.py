@@ -1,7 +1,6 @@
-# ________________________________________________________________________________# BE BETTER - This is a Smart Student Planner
+# BE BETTER - This is a Smart Student Planner
 # Team Members: David Oladapo, Emmanuella Austin-Gabriel
 # Features: Goal Tracker, Homework Tracker, Budget Tracker
-# ___________________________________________________________________________________
 
 import random  # this is used for randomizing motivational messages for our homework feature
 
@@ -532,3 +531,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
